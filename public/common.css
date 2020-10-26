@@ -1,0 +1,23 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.btn{ 
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    background-image: linear-gradient(to top right,#2e4552,#4f9b8f);
+    color:#e6bd9a;
+} 
+header{
+    background-color: #e6bd9a; 
+    display: flex;
+    justify-content: space-between;
+    padding:10px ;
+} 
+.brandname{
+    font-size: 25px;
+    font-weight: 500;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
