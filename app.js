@@ -12,6 +12,8 @@ mongoose.connect("mongodb+srv://milka007:Milka@123@cluster0.iwuap.mongodb.net/Sm
     }
  )
  const doctorRoute = require('./routes/doctor')
+ const userRoute = require('./routes/user')
+ const appointmentRoute = require('./routes/appointment')
 var app = express() 
 app.use(bodyParser.json())
 
@@ -21,8 +23,10 @@ app.use(bodyParser.urlencoded({
  
  app.use(express.static('public'))
  app.use('/doctor',doctorRoute)  
+ app.use('/user',userRoute) 
+ app.use('/appointment',appointmentRoute) 
 
  
  app.listen(3000,()=>{
-    console.log("connected to port number 4000");
+    console.log("connected to port number 3000");
     }); 

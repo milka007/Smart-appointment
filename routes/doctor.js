@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
         const { doctor_name, specialization, phone, email, address, fee, slot } = req.body
         var data = await Doctor.find().sort({ doctor_id: -1 }).limit(1)
         
-        if (data==[]) { 
+        if (data.length==0) { 
             
             var doctor_id = "DR0001"
             data = await Doctor.create({

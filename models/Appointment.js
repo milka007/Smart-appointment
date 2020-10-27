@@ -9,10 +9,10 @@ const Appointment = new Schema({
     },
     doctor_id:{
         type:String,
-        required:true,
+        required:true, 
         
     },
-    patient_id:{
+    user_id:{
         type:String,
         required:true,
         
