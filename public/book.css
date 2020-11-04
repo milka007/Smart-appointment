@@ -1,0 +1,199 @@
+
+.parent-container{
+    display: flex;
+
+}
+.slotbooking{
+    margin: 30px;
+
+}
+.date{
+  
+    margin: 10px;
+    padding: 4px 8px;
+   
+}
+.avail{
+    border: .5px solid #bbb0b0;
+    background-color: rgb(47, 209, 120);
+    padding: 8px 16px;
+    margin: 10px;
+    border-radius: 4px;
+}
+.btn{
+    margin: 4px;
+}
+.butn{
+    display: flex;
+    flex-direction: column;
+}
+@import url(https://fonts.googleapis.com/css?family=Lato:300);
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+html, body, div, span, h1, h2, h3, p, a, form, nav, li, ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  vertical-align: baseline;
+}
+body {
+  font-family: 'Lato',sans-serif;
+  padding: 1em 0;
+  background: #47cf73;
+}
+ul {
+  list-style-type: none;
+}
+.right {
+  text-align: right;
+}
+.center {
+  text-align: center;
+}
+.pointer {
+  cursor: pointer;
+}
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.calendar {
+  position: relative;
+  max-width: 20em;
+  min-height: 15em;
+  margin: .5em auto;
+  overflow: hidden;
+  color: #ddd;
+  background: rgb(51, 51, 51);
+  
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+/*Styles for dropdown*/
+.calendar-ympicker{
+  position: absolute;
+  max-width: 19.5em; /*stop more years causing overflow*/
+  min-height: 15em;
+  padding: .5em .5em 1em;
+  transform: translateY(-100%); /*Start offscreen*/
+  transition: transform ease-in-out 0.2s;
+  background: rgb(51, 51, 51);
+  z-index: 2;
+}
+.calendar-ympicker-header div{
+  display: inline-block;
+  color:#428bca;
+  cursor: pointer;
+}
+.calendar-ympicker .close{
+  text-align: right;
+  border: 1px transparent solid;
+}
+.calendar-ympicker li{
+  display: inline-block;
+  line-height: 2em;
+  border: 1px transparent solid;
+  text-align: center;
+  cursor: pointer;
+}
+.calendar-ympicker li:hover{
+  border-color: #428bca;
+  color: #428bca;
+}    
+.calendar-ympicker-months{
+  border-bottom: 1px solid #444;
+}
+.calendar-ympicker-months li{
+  width: 30%;
+}
+.calendar-ympicker-years{
+  overflow-x: scroll;
+  white-space: nowrap;
+  padding: 0.5em 0;
+}
+.calendar-ympicker-years li{
+  width: 25%;
+}
+/*Years scroll bar*/
+.calendar-ympicker-years::-webkit-scrollbar-thumb:horizontal:hover {
+  background:#428bca;
+}
+.calendar-ympicker-years::-webkit-scrollbar {
+  height: 8px;
+}
+.calendar-ympicker-years::-webkit-scrollbar-track {
+  background-color: #555;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+.calendar-ympicker-years::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/*Styles for main part of calander*/
+.calendar-header {
+  padding: .5em .5em 0 .5em;
+  margin-bottom: .3em;
+  color: #428bca;
+}
+.calendar-header .arrow{
+  position: absolute;
+  width: 10%;
+  top: 8px;
+}
+.calendar-header .addmonth{
+  right: 0.5em;
+  text-align: right;
+}
+.calendar-header .arrow span{
+  display: inline-block;
+  transition: transform ease-in-out 0.2s;
+}
+.calendar-header .monthname:hover ~ .addmonth span{
+  transform: rotateZ(90deg);
+}
+.calendar-header .monthname:hover ~ .minusmonth span{
+  transform: rotateZ(-90deg);
+}
+
+.calendar-days{
+  padding: 0 .5em; /*Right and Left*/
+  border-bottom: 1px solid #444;
+  color: #666;
+}
+
+/*Dates*/
+.calendar-body{
+  padding: 0 .5em .5em .5em;
+}
+.calendar-body li, .calendar-days li{
+  float: left;
+  width: -webkit-calc(100%/7);
+  padding: .25em 0;
+  border: 1px transparent solid;
+  text-align: center;
+  cursor: pointer;
+}
+.calendar-body li:hover {
+  border: 1px solid #428bca;
+  color: #428bca;
+}
+.calendar li.active{
+  background-color: #428bca;
+  color: #ddd;
+}
+.calendar-body .today{
+  border: 1px solid #444;      
+}
+.calendar-body li.noclick{
+  cursor: default;
+}
+

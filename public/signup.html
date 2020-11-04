@@ -9,22 +9,34 @@
 </head>
 
 <body> 
-    <form> 
+    <form onsubmit="return validation()"> 
         <div class="container signup" > 
             <h1>SignUp</h1> 
             <hr>
             <label for="email" ><b>Email</b></label> 
             <input type="text" class="email" placeholder="Enter Email" name="email" required>
+            <span class="emailerror "></span>
+            <br>
             <label for="name"><b>Name</b></label>
             <input type="text" class= "name" placeholder="Enter Name" name="name" required>
+            <span class="nameerror"></span>
+            <br>
             <label for="phone"><b>Phone Number</b></label>
             <input type="text" class= "phone" placeholder="Enter Phone" name="phone" required>
+            <span class="phoneerror"></span>
+            <br>
             <label for="name"><b>Age</b></label>
             <input type="text" class= "age" placeholder="Enter Age" name="age" required>
+            <span class="agerror"></span>
+            <br>
              <label for="psw"><b>Password</b></label>
             <input type="password" class="psw" placeholder="Enter Password" name="psw" required>
+            <span class="pswerror"></span>
+            <br>
             <label for="psw-repeat"><b>Repeat Password</b></label>
             <input type="password" class="rppsw" placeholder="Repeat Password" name="psw-repeat" required>
+            <span class="cpswerror"></span>
+            <br>
             <button type="button" class="signupbtn" >Sign Up</button>
          
             

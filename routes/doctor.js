@@ -3,6 +3,16 @@ const Doctor = require('../models/Doctor');
 const router = express.Router();
 const idCreator = require('../services/idCreator')
 
+router.get('/getDetails/:doctor_id',async (req,res)=>{
+    try{  
+        const {doctor_id} = req.params
+        var data = await Doctor.find({doctor_id:doctor_id})
+        res.json(data)
+    }
+    catch(err){
+        console.log(err.message)
+    }
+})
 router.post('/', async (req, res) => {
     try {
         const { doctor_name, specialization, phone, email, address, fee, slot } = req.body

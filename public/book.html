@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="book.css">
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="home.css">
+    <title>Book</title>
+</head>
+
+<body>
+    
+    <header>
+        <div class="brandname">
+            Smart Appointment
+        </div>
+        <div class="ifloggedin">
+            <button class="btn">Profile</button>
+            <button class="btn">Your Appointments</button>
+            <button class="btn">Log Out</button>
+        </div>
+    </header>
+    <div class="parent-container">
+        <div class="container">
+
+        </div>
+        <div class="parent-calendar">
+            <h1 class="center">Select Date</h1>
+
+            <div class="calendar">
+                <div class="group calendar-ympicker">
+                    <div class="calendar-ympicker-header">
+                        <div style="font-size:small;" class="today">Today</div>
+                        <div style="float:right;width:20%;text-align:right;" class="close">&uarr;</div>
+                    </div>
+                    <ul style="clear:both;" class="center calendar-ympicker-months">
+                        <li>Jan</li>
+                        <li>Feb</li>
+                        <li>Mar</li>
+                        <li>Apr</li>
+                        <li>May</li>
+                        <li>Jun</li>
+                        <li>Jul</li>
+                        <li>Aug</li>
+                        <li>Oct</li>
+                        <li>Sep</li>
+                        <li>Nov</li>
+                        <li>Dec</li>
+                    </ul>
+                    <ul class="center calendar-ympicker-years">
+                    </ul>
+                </div>
+
+                <div class="group calendar-header">
+                    <p class="pointer center monthname">&nbsp;</p>
+                    <p class="pointer arrow minusmonth"><span>&larr;</span></p>
+                    <p class="pointer arrow addmonth"><span>&rarr;</span></p>
+                </div>
+
+                <ul class="group calendar-days">
+                    <li>Mo</li>
+                    <li>Tu</li>
+                    <li>We</li>
+                    <li>Th</li>
+                    <li>Fr</li>
+                    <li>Sa</li>
+                    <li>Su</li>
+                </ul>
+                <ul class="group calendar-body">
+                    <!-- Dates go in here -->
+                </ul>
+            </div>
+        </div>
+        <div class="slotbooking">
+            <div class="date">
+                <span class="todaysdate">text</span>
+            </div>
+            <div class="avail">
+                Select Appointment time
+
+            </div>
+
+           
+
+
+        </div>
+
+    </div>
+    
+    <div class="popup ">
+        <div class="popup-fullscreen">
+            <div class="popup-box">
+
+                <div class="popup-text">
+                    
+                </div>
+                <button class="btn ok-btn">OK</button>
+            </div>
+        </div>
+       
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="book.js"></script>
+</body>
+
+</html>

@@ -25,25 +25,19 @@ $(document).ready(() => {
             </div>
 
              </div>
-            `)  
+            `)
             }
             $('.book-btn').click(function () {
-               var doctor_id = $(this).attr("doctorId")
-               console.log(doctor_id)
-            //    for (var i = 0; i < res.length; i++){
-            //        if(doctor_id==res[i].doctor_id){
-            //            console.log(res[i].slot)
-            //        } 
-            //    }
-               var doctor = res.filter(data=> data.doctor_id==doctor_id)
-               console.log(doctor[0].slot)
-               
+                var doctor_id = $(this).attr("doctorId") 
+                console.log(doctor_id)
+                window.location.href=`http://localhost:3000/book.html?doctor_id=${doctor_id}`
+
             })
         })
-        .catch(err => {
+        .catch(err => { 
             console.log(err.message)
         })
-    
+
 
 
 }) 

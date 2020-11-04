@@ -1,5 +1,5 @@
 exports.idCreator = (prevId)=>{
-    console.log(prevId)
+    
     const idName = prevId[0]+prevId[1] 
     
     const idLen= prevId.length

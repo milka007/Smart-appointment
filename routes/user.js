@@ -5,7 +5,7 @@ const Speakeasy = require('speakeasy')
 const mailer = require('../services/mail')
 const User = require('../models/User')
 const idCreator = require('../services/idCreator')
-const { deleteOne } = require('../models/User')
+
 
 
 router.post('/generateOTP', (req, res) => {
@@ -116,7 +116,7 @@ router.get('/getname', (req, res) => {
 router.post('/login', (req, res) => {
     var { email, password } = req.body
     const enPassword = cryptoJS.SHA256(password).toString()
-    User.findOne({ email })
+    User.findOne({ email }) 
 
         .then(data => {
             if (!data) {
@@ -144,9 +144,6 @@ router.post('/login', (req, res) => {
         })
 
 })
-
-
-
 
 
 module.exports = router

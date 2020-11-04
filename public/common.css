@@ -3,13 +3,23 @@
     margin: 0;
     box-sizing: border-box;
 }
+
 .btn{ 
+
     border: none;
     border-radius: 6px;
     padding: 6px 12px;
     background-image: linear-gradient(to top right,#2e4552,#4f9b8f);
     color:#e6bd9a;
+    cursor: pointer;
+
 } 
+button:disabled{
+    cursor: default;
+    background-image: linear-gradient(to top right,#2e455210,#4f9b9010);
+    
+    
+}
 header{
     background-color: #e6bd9a; 
     display: flex;
@@ -20,4 +30,41 @@ header{
     font-size: 25px;
     font-weight: 500;
     font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.popup{
+    display: none;
+}
+.popup-fullscreen{ 
+    
+    height: 100vh;
+    width:100vw;
+    position: fixed;
+    top:0;
+    left :0;
+    background-color: #0004;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; 
+    
+
+}
+.popup-box{  
+    
+    min-height: 100px; 
+    border-radius: 4px;
+    width: 100%;
+    max-width: 700px;
+    background-color: white;
+    text-align: center; 
+
+}
+.popup-text{
+    font-size: 1.1em;
+    padding: 10px;
+    
+    
+}
+.ok-btn{
+    margin: 5px;
 }

@@ -16,33 +16,35 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: auto;
 
 } 
 .card:hover{
     box-shadow: 0 0 9px 1px #0005;
 }
 .parent-card{
-    float: left;
+   float: left;
     width: 100%;
     
 } 
 
-@media (min-width:774px){
+ @media (min-width:774px){
     .parent-card{
         width: 50%;
     } 
-}
-@media (min-width:1136px){
+} 
+ @media (min-width:1136px){
 
     .parent-card{
-        width: 33.33%;
+        width: 33%;
     } 
 }
-@media (min-width:1482px){
+
+/* @media (min-width:1508px){
     .parent-card{
-        width: 25%;
+        width: 30%;
     } 
-}
+}  */
 .about div{
 padding: 5px;
  text-align: center; 
