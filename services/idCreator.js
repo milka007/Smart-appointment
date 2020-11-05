@@ -1,3 +1,4 @@
+
 exports.idCreator = (prevId)=>{
     
     const idName = prevId[0]+prevId[1] 

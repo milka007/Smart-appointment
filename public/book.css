@@ -1,21 +1,26 @@
 
 .parent-container{
     display: flex;
-
+    justify-content: space-evenly;
 }
 .slotbooking{
-    margin: 30px;
+    margin: 15px;
 
 }
+.s-date{
+  margin-top: 15px;
+}
+
 .date{
-  
+    text-align: center; 
+    font-weight: bold;
     margin: 10px;
     padding: 4px 8px;
    
 }
 .avail{
     border: .5px solid #bbb0b0;
-    background-color: rgb(47, 209, 120);
+    /* background-color: rgb(47, 209, 120); */
     padding: 8px 16px;
     margin: 10px;
     border-radius: 4px;
@@ -42,8 +47,8 @@ html, body, div, span, h1, h2, h3, p, a, form, nav, li, ul {
 }
 body {
   font-family: 'Lato',sans-serif;
-  padding: 1em 0;
-  background: #47cf73;
+  /* padding: 1em 0; */
+  background: #e6bd9a40;
 }
 ul {
   list-style-type: none;

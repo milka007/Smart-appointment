@@ -5,6 +5,9 @@ const Speakeasy = require('speakeasy')
 const mailer = require('../services/mail')
 const User = require('../models/User')
 const idCreator = require('../services/idCreator')
+const jwt = require('jsonwebtoken')
+const { authenticateToken } = require('../services/auth')
+const Appointment = require('../models/Appointment')
 
 
 
@@ -127,8 +130,10 @@ router.post('/login', (req, res) => {
                 return;
             }
             if (enPassword == data.password) {
+                const token = jwt.sign({user_id:data.user_id},"@#$%^9787tygh") 
                 res.json({
-                    success: true
+                    success: true,
+                    token
                 })
             }
             else {
@@ -137,13 +142,15 @@ router.post('/login', (req, res) => {
                     message: "invalid password"
                 })
             }
-            console.log(data.password)
+            
         }).catch(err => {
             console.log(err.message)
             res.status(500)
         })
 
+
 })
+
 
 
 module.exports = router

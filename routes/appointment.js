@@ -3,7 +3,37 @@ const Appointment = require('../models/Appointment');
 const Doctor = require('../models/Doctor');
 const idCreator = require('../services/idCreator');
 const router = express.Router();
+const {authenticateToken} = require('../services/auth')
+const {sendMailer} = require('../services/mail')
 
+router.get('/myAppointments' ,authenticateToken, async (req,res)=>{
+    try{
+        const user_id = req.user.user_id
+        var data = await Appointment.find({user_id})
+        var appd = []
+        for(var i=0;i<data.length;i++){
+            var doctor_id = data[i].doctor_id
+        const doctordata = await Doctor.findOne({doctor_id})
+        var newdata = {}
+        newdata.doctor_name = doctordata.doctor_name
+
+        newdata.address = doctordata.address
+        newdata.fee = doctordata.fee
+        newdata.appointment_id = data[i].appointment_id
+        newdata.time = data[i].time
+        newdata.date= data[i].date
+        newdata.bookedon = data[i].bookedon
+        appd.push(newdata)
+        }
+        
+        res.json(appd) 
+    }
+  catch(err){
+
+      console.log(err.message)
+  }
+
+})
 router.get('/allAppointments/:doctorId', async (req, res) => {
     try{
         const { doctorId } = req.params
@@ -19,38 +49,24 @@ router.get('/allAppointments/:doctorId', async (req, res) => {
 })
 
 
-router.post('/createAppointment', async (req, res) => {  // to create a new appointment for a person
+router.post('/createAppointment',authenticateToken, async (req, res) => {  // to create a new appointment for a person
     try {
         var appointment_id
-
-        var { doctor_id, user_id, time, date } = req.body  // we are getting the doctor details which the person has booked ,
+        var user_id = req.user.user_id
+        var { doctor_id, time, date } = req.body  
         var bookdate = new Date(date)
         bookdate.setHours(0,0,0,0)
         date=bookdate 
-        var isDocId = await Doctor.findOne({ doctor_id })  // 
-        // console.log(isDocId)
-        if (!isDocId) { // same reason. if we find any data we will proceed. if we dont find we will return giving a msg
+        var isDocId = await Doctor.findOne({ doctor_id })  
+        if (!isDocId) { 
             res.json({
                 success: false,
                 message: "invalid doctor"
             })
             return; 
 
-        }
-        var isSlotValid = false
+        } 
         var slot = isDocId.slot
-
-        // for (var i = 0; i < slot.length; i++) {  here we are macthing the time slot which the user is trying to book with the doctors slot. right?
-        //     if (slot[i] == time)
-        //     { 
-        //         isSlotValid = true
-        //         break
-        //     }
-        // }
-        // if (isSlotValid)
-        //     console.log(true)
-        // else
-        //     console.log(false)
 
         var slotIndex = slot.indexOf(time)
         if (slotIndex == -1) {
@@ -70,7 +86,6 @@ router.post('/createAppointment', async (req, res) => {  // to create a new appo
             })
             return;
         }
-        // console.log(isSlotAllreadyExists) 
 
         var data = await Appointment.find().sort({ appointment_id: -1 }).limit(1)
         if (data.length == 0) {
@@ -88,7 +103,7 @@ router.post('/createAppointment', async (req, res) => {  // to create a new appo
             time,
             date
         })
-
+        
         res.json({
             success: true
         })

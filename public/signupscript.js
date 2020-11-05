@@ -141,7 +141,7 @@ $(document).ready(() => {
 
         var otp = $('.otp').val()
 
-        console.log(email, user_name, phone, age, password, rpPassword)
+        console.log(email, user_name, phone, age, password)
         fetch(`http://localhost:3000/user/verifyOTP/${secret}/${otp}`, {
             method: 'post',
             body: JSON.stringify({
@@ -159,7 +159,7 @@ $(document).ready(() => {
             .then(data => {
                 console.log(data)
                 if (data.success) {
-                    window.location.href = "http://localhost:3000/home.html";
+                    window.location.href = "http://localhost:3000/login.html";
                 }
 
             })

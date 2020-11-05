@@ -1,5 +1,15 @@
 
 $(document).ready(() => {
+
+  const loggedin = () => {
+
+    const token = localStorage.token
+    return !!token
+  }
+  var isloggedin = loggedin() 
+  if(!isloggedin){
+    window.location.href = "http://localhost:3000/login.html"
+  }
   var d = new Date();
   var bookdate = new Date();
   var booktime
@@ -240,15 +250,16 @@ $(document).ready(() => {
           $('.popup').show()
           return;
         }
+        const token = localStorage.token
         fetch(`http://localhost:3000/appointment/createAppointment`, {
           method: 'post',
           body: JSON.stringify({
             doctor_id,
-            user_id: "US0001",
             time: booktime,
             date: bookdate
           }),
           headers: new Headers({
+            token,
             'content-type': 'application/JSON'
           })
         }).then(res => res.json())
@@ -260,10 +271,10 @@ $(document).ready(() => {
                 window.location.href = "http://localhost:3000/home.html"
               }, 5000);
             }
-            else{
+            else {
               $('.popup-text').html('This appointment time is already booked')
               $('.popup').show()
-              
+
             }
 
           })

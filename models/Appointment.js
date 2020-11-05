@@ -22,9 +22,13 @@ const Appointment = new Schema({
         type:String,
         required:true
     },
-    date:{
+    date:{ 
         type:Date,
         required:true
+    },
+    bookedon:{
+        type:Date,
+        default:new Date()
     }
 
 })

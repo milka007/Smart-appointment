@@ -1,7 +1,24 @@
 
 
 
-$(document).ready(() => {
+$(document).ready(() => { 
+    const loggedin = ()=>{
+        const token = localStorage.token
+        return !!token
+    } 
+    var isloggedin= loggedin()
+    console.log(isloggedin)
+    if(isloggedin){
+        $('.ifloggedout').hide()
+    }
+    else{
+        $('.ifloggedin').hide()
+    }
+    $('.logout').click(function(){
+        localStorage.removeItem("token")
+        window.location.href = "http://localhost:3000/home.html"
+        console.log("logout clicked") 
+    })
     fetch('http://localhost:3000/doctor/getAllDoctors', {
         method: "get"
     }).then(res => res.json())
