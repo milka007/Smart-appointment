@@ -50,7 +50,7 @@ router.get('/allAppointments/:doctorId', async (req, res) => {
 })
 
 
-router.post('/createAppointment', authenticateToken, async (req, res) => {  // to create a new appointment for a person
+router.post('/createAppointment', authenticateToken, async (req, res) => {  
     try {
         var appointment_id
         var user_id = req.user.user_id
@@ -152,7 +152,7 @@ router.post('/createAppointment', authenticateToken, async (req, res) => {  // t
         res.json({
 
             success: true
-        })
+        }) 
     }
     catch (err) {
         console.log(err.message)

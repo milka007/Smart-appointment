@@ -12,22 +12,22 @@ const Appointment = require('../models/Appointment')
 
 
 router.post('/generateOTP', (req, res) => {
-    var email = req.body.email //yaha email le rhe .
+    var email = req.body.email 
 
-    var secret = Speakeasy.generateSecret({ length: 20 }); //generating secret 20 letter
+    var secret = Speakeasy.generateSecret({ length: 20 }); 
     otpSecret = secret.base32;
-    otp = Speakeasy.totp({   //otp create
-        secret: otpSecret,    //secret use krhe for otp generating
+    otp = Speakeasy.totp({   
+        secret: otpSecret,    
         encoding: "base32",
-        digits: 4, // 4 digit otp
+        digits: 4, 
         window: 0,
-        step: 180  //validity time in sec
+        step: 180  
 
     });
-    mailer.sendMailer(email, "Verification code", `Your OTP is ${otp}`)  //using send mailer to send otp to user email user ka 
-    // console.log(otp)
-    res.json({ // frontend me response 
-        secret: otpSecret,  //ye wala chiz waha bhej rhe ab 
+    mailer.sendMailer(email, "Verification code", `Your OTP is ${otp}`)  
+    
+    res.json({ 
+        secret: otpSecret,   
     })
 
 })

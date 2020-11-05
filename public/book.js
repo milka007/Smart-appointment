@@ -163,12 +163,12 @@ $(document).ready(() => {
       }
 
       // Adds active class to date when clicked
-      $('.calendar-body li').click(function () { // toggle selected dates
+      $('.calendar-body li').click(function () { 
 
         if (!$(this).hasClass('noclick')) {
           $('.calendar-body li').removeClass('active');
           $(this).addClass('active');
-          Calendar.selectedDate = [Calendar.theyear, Calendar.themonth, $(this).text()]; // save date for reselecting
+          Calendar.selectedDate = [Calendar.theyear, Calendar.themonth, $(this).text()]; 
           var date = Calendar.selectedDate[2]
           var month = Calendar.selectedDate[1]
           var year = Calendar.selectedDate[0]
@@ -211,7 +211,6 @@ $(document).ready(() => {
 
 
   var url = window.location.href
-  // url = "http://localhost:3000/book.html?doctor_id=DR0002&spec=ENT&phone=000"
   var data = url.split("?")
   data = data[1]
   data = data.split("&")
