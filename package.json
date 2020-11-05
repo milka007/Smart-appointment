@@ -16,6 +16,7 @@
     "mongoose": "^5.10.9",
     "nodemailer": "^6.4.14",
     "nodemon": "^2.0.6",
+    "puppeteer": "^5.4.1",
     "speakeasy": "^2.0.0"
   }
 }

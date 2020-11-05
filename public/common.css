@@ -15,6 +15,20 @@
     cursor: pointer;
 
 } 
+.active-btn{ 
+
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    background-color:#e6bd9a;
+    color: #2e4552;
+    cursor: pointer;
+    background-image: none !important;
+
+} 
+button:focus{
+    outline: 0px !important;
+}
 button:disabled{
     cursor: default;
     background-image: linear-gradient(to top right,#2e455210,#4f9b9010);
@@ -33,7 +47,7 @@ header{
     font-weight: 500;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
-.popup{
+.popup,.popup-spinner{
     display: none;
 }
 .popup-fullscreen{ 
@@ -51,6 +65,11 @@ header{
     
 
 }
+
+svg{
+    width: 120px;
+    height: auto;
+  }
 .popup-box{  
     
     min-height: 100px; 

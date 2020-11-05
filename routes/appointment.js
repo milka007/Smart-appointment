@@ -1,71 +1,72 @@
 const express = require('express');
 const Appointment = require('../models/Appointment');
 const Doctor = require('../models/Doctor');
+const User = require('../models/User');
 const idCreator = require('../services/idCreator');
 const router = express.Router();
-const {authenticateToken} = require('../services/auth')
-const {sendMailer} = require('../services/mail')
+const { authenticateToken } = require('../services/auth')
+const { sendMailer } = require('../services/mail')
+const puppeteer = require('puppeteer')
 
-router.get('/myAppointments' ,authenticateToken, async (req,res)=>{
-    try{
+router.get('/myAppointments', authenticateToken, async (req, res) => {
+    try {
         const user_id = req.user.user_id
-        var data = await Appointment.find({user_id})
+        var data = await Appointment.find({ user_id })
         var appd = []
-        for(var i=0;i<data.length;i++){
+        for (var i = 0; i < data.length; i++) {
             var doctor_id = data[i].doctor_id
-        const doctordata = await Doctor.findOne({doctor_id})
-        var newdata = {}
-        newdata.doctor_name = doctordata.doctor_name
+            const doctordata = await Doctor.findOne({ doctor_id })
+            var newdata = {}
+            newdata.doctor_name = doctordata.doctor_name
 
-        newdata.address = doctordata.address
-        newdata.fee = doctordata.fee
-        newdata.appointment_id = data[i].appointment_id
-        newdata.time = data[i].time
-        newdata.date= data[i].date
-        newdata.bookedon = data[i].bookedon
-        appd.push(newdata)
+            newdata.address = doctordata.address
+            newdata.fee = doctordata.fee
+            newdata.appointment_id = data[i].appointment_id
+            newdata.time = data[i].time
+            newdata.date = data[i].date
+            newdata.bookedon = data[i].bookedon
+            appd.push(newdata)
         }
-        
-        res.json(appd) 
-    }
-  catch(err){
 
-      console.log(err.message)
-  }
+        res.json(appd)
+    }
+    catch (err) {
+
+        console.log(err.message)
+    }
 
 })
 router.get('/allAppointments/:doctorId', async (req, res) => {
-    try{
+    try {
         const { doctorId } = req.params
-        var data = await Appointment.find({doctor_id:doctorId})
-        console.log(data)
+        var data = await Appointment.find({ doctor_id: doctorId })
         res.json(data)
-        
+
     }
-    catch(err){
+    catch (err) {
         console.log(err.message)
-    }
-   
+    } 
+
 })
 
 
-router.post('/createAppointment',authenticateToken, async (req, res) => {  // to create a new appointment for a person
+router.post('/createAppointment', authenticateToken, async (req, res) => {  // to create a new appointment for a person
     try {
         var appointment_id
         var user_id = req.user.user_id
-        var { doctor_id, time, date } = req.body  
+        var { doctor_id, time, date } = req.body
         var bookdate = new Date(date)
-        bookdate.setHours(0,0,0,0)
-        date=bookdate 
-        var isDocId = await Doctor.findOne({ doctor_id })  
-        if (!isDocId) { 
+        bookdate.setHours(0, 0, 0, 0)
+        date = bookdate
+        var isDocId = await Doctor.findOne({ doctor_id })
+        if (!isDocId) {
             res.json({
                 success: false,
                 message: "invalid doctor"
             })
-            return; 
+            return;
 
-        } 
+        }
         var slot = isDocId.slot
 
         var slotIndex = slot.indexOf(time)
@@ -76,7 +77,7 @@ router.post('/createAppointment',authenticateToken, async (req, res) => {  // to
             })
             return;
 
-        } 
+        }
 
         var isSlotAllreadyExists = await Appointment.findOne({ $and: [{ doctor_id }, { time }, { date }] })
         if (isSlotAllreadyExists) {
@@ -95,7 +96,7 @@ router.post('/createAppointment',authenticateToken, async (req, res) => {  // to
             appointment_id = data[0].appointment_id
             appointment_id = idCreator.idCreator(appointment_id)
         }
-        data = await Appointment.create({ 
+        data = await Appointment.create({
 
             doctor_id,
             appointment_id,
@@ -103,8 +104,53 @@ router.post('/createAppointment',authenticateToken, async (req, res) => {  // to
             time,
             date
         })
-        
+        const doctordata = await Doctor.findOne({doctor_id})
+        const userdata = await User.findOne({user_id})
+        var html = `
+        <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<body>
+   Dear ${userdata.user_name},<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;Your Appointment is confirmed for Doctor ${doctordata.doctor_name}.Your Appointment is scheduled on ${date}
+   at ${time}. See you in Clinic. <br>
+   Thank You <br><br>
+   <b>
+   Smart Appointment,<br>
+   Dr. ${doctordata.doctor_name} <br>
+   Clinic Address - ${doctordata.address} <br>
+   Phone Number - ${doctordata.phone} <br>
+   Email - ${doctordata.email}
+
+
+
+   </b>
+
+</body>
+
+</html>
+        `
+        const browser = await puppeteer.launch({
+            args: ["--no-sandbox"],
+        });
+        const page = await browser.newPage();
+        await page.setContent(html)
+        const buffer = await page.pdf({
+
+            path: "appointment.pdf",
+            format: "A4",
+            printBackground: true,
+        });
+        let pdfdata = Uint8Array.from(Buffer.from(buffer))
+        sendMailer("milkashazadi827@gmail.com","Appointment confirmed","Test",[{filename:"appointment.pdf",content:pdfdata}])
         res.json({
+
             success: true
         })
     }

@@ -6,13 +6,15 @@ $(document).ready(() => {
     const token = localStorage.token
     return !!token
   }
-  var isloggedin = loggedin() 
-  if(!isloggedin){
+  var isloggedin = loggedin()
+  if (!isloggedin) {
     window.location.href = "http://localhost:3000/login.html"
   }
   var d = new Date();
+  var alreadybooked
   var bookdate = new Date();
-  var booktime
+  var booktime, doctorslot
+
 
   var Calendar = {
     themonth: d.getMonth(), // The number of the month 0-11
@@ -28,6 +30,7 @@ $(document).ready(() => {
       var monthindex = Calendar.selectedDate[1]
       var weekindex = d.getDay()
       $('.todaysdate').html(` ${Calendar.selectedDate[2]},${Calendar.months[monthindex]},${Calendar.selectedDate[0]}`)
+      
       // Populate the list of years in the month/year pulldown
       var year = this.theyear;
       for (var i = 0; i < 10; i++) {
@@ -163,23 +166,42 @@ $(document).ready(() => {
       $('.calendar-body li').click(function () { // toggle selected dates
 
         if (!$(this).hasClass('noclick')) {
-          console.log(this)
           $('.calendar-body li').removeClass('active');
           $(this).addClass('active');
           Calendar.selectedDate = [Calendar.theyear, Calendar.themonth, $(this).text()]; // save date for reselecting
-          console.log(Calendar.selectedDate)
           var date = Calendar.selectedDate[2]
           var month = Calendar.selectedDate[1]
           var year = Calendar.selectedDate[0]
           bookdate = new Date()
           bookdate.setFullYear(year, month, date)
-
-          console.log(bookdate)
-
-
-
+          bookdate.setHours(0, 0, 0, 0)
           var index = Calendar.selectedDate[1]
           $('.todaysdate').html(` ${Calendar.selectedDate[2]},${Calendar.months[index]},${Calendar.selectedDate[0]}`)
+          var slot = doctorslot
+          for (var a of alreadybooked) {
+            var tempdate = new Date(a.date)
+            if (tempdate.getTime() === bookdate.getTime()) {
+              var temptime = a.time
+              slot = slot.filter(time => time != temptime)
+              console.log(slot)
+            }
+          }
+          $('.slots').html("")
+          for (var i = 0; i < slot.length; i++) {
+            $('.slots').append(`
+            <div class="butn">
+              <button class="btn tme">${slot[i]}</button>
+            </div> 
+            `)
+
+          }
+          $('.tme').click(function () {
+
+            booktime = $(this).html()
+            $('.active-btn').removeClass("active-btn")
+            $(this).addClass('active-btn')
+
+          })
         }
       });
     }
@@ -206,7 +228,7 @@ $(document).ready(() => {
   }).then(res => res.json())
     .then(res => {
 
-      $('.container').append(`
+      $('.doc-container').append(`
       
       <div class="parent-card">
         <div class="card">
@@ -225,23 +247,11 @@ $(document).ready(() => {
           </div>
         </div> 
 
-      </div>
+      </div> 
       `)
-      for (var i = 0; i < res[0].slot.length; i++) {
-        $('.slotbooking').append(`
-        <div class="butn">
-       
-          <button class="btn tme">${res[0].slot[i]}</button>
-        
-       
-        </div> 
-        `)
-      }
-      $('.tme').click(function () {
+      doctorslot = res[0].slot
 
-        booktime = $(this).html()
 
-      })
       $('.cfn').click(function () {
 
         console.log(bookdate, booktime)
@@ -250,7 +260,17 @@ $(document).ready(() => {
           $('.popup').show()
           return;
         }
+        bookdate= new Date(bookdate)
+        var todaydate = new Date()
+        todaydate.setHours(0,0,0,0) 
+        if(todaydate.getTime()>=bookdate.getTime()){ 
+
+          $('.popup-text').html('Please select valid date')
+          $('.popup').show()
+          return;
+        }
         const token = localStorage.token
+        $('.popup-spinner').show()
         fetch(`http://localhost:3000/appointment/createAppointment`, {
           method: 'post',
           body: JSON.stringify({
@@ -264,6 +284,7 @@ $(document).ready(() => {
           })
         }).then(res => res.json())
           .then(res => {
+            $('.popup-spinner').hide()
             if (res.success) {
               $('.popup-text').html('Your appointment has been booked')
               $('.popup').show()
@@ -294,6 +315,46 @@ $(document).ready(() => {
     .catch(err => {
       console.log(err)
     })
+  fetch(`http://localhost:3000/appointment/allAppointments/${doctor_id}`, {
+    method: "get"
+  }).then(res => res.json())
+    .then(res => {
+      console.log(res)
+      alreadybooked = res
+      var slot = doctorslot
+      bookdate=new Date(bookdate)
+      bookdate.setHours(0,0,0,0)
+      for (var a of alreadybooked) {
+        var tempdate = new Date(a.date)
+        if (tempdate.getTime() === bookdate.getTime()) {
+          var temptime = a.time
+          slot = slot.filter(time => time != temptime)
+          console.log(slot)
+        }
+      }
+      $('.slots').html("")
+      for (var i = 0; i < slot.length; i++) {
+        $('.slots').append(`
+        <div class="butn">
+          <button class="btn tme">${slot[i]}</button>
+        </div> 
+        `)
+
+      }
+      $('.tme').click(function () {
+
+        booktime = $(this).html()
+        $('.active-btn').removeClass("active-btn")
+        $(this).addClass('active-btn')
+
+
+      })
+    })
+    .catch(err => {
+      console.log(err.message)
+    })
+
+    
 
 
 
