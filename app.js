@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({
     extended: false
  }));
  
+ 
  app.use(express.static('public'))
  app.use('/doctor',doctorRoute)  
  app.use('/user',userRoute) 

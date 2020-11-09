@@ -7,7 +7,9 @@ exports.sendMailer = function (to, subject, text,attachments=null) {
     auth: {
         user: "milkashazadi827@gmail.com",
         pass: "shazadimilkha"
-    }
+    },
+    secure: true
+
   });
   
 

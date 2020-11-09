@@ -18,18 +18,53 @@ $(document).ready(() => {
             password = $('.psw').val()
             cPassword = $('.rppsw').val()
             
-            if(email==""||user_name==""||phone==""||age==""||password==""||cPassword=="")
+            if(email=="")
             {
-                console.log("exmpy")
                 $('.emailerror').html("**Please fill Email")
+                $(".emailerror").css("color", "red");
+                valid = false
+
+            }
+            if(user_name=="")
+            {
                 $('.nameerror').html("**Please fill Name")
+                $(".nameerror").css("color", "red");
+
+                valid = false
+            }
+            if(phone=="")
+            {
                 $('.phoneerror').html("**Please fill Phone number")
+                $(".phoneerror").css("color", "red");
+                
+                valid = false
+            }
+            if(age==""){
                 $('.agerror').html("**Please fill age")
+                $(".agerror").css("color", "red");
+
+                valid = false
+
+            }
+            if(password=="")
+            {
                 $('.pswerror').html("**Password is empty")
+                $(".pswerror").css("color", "red");
+
+                valid = false
+                
+            }
+            if(cPassword=="")
+            {
                 $('.cpswerror').html("**")
+                $(".cpswerror").css("color", "red");
 
-                return ;
+                valid = false
 
+            }
+            if(valid===false)
+            {
+                return false
             }
 
 
@@ -46,8 +81,10 @@ $(document).ready(() => {
             } else {
                 console.log("invalid name")
                 $('.emailerror').html("Email invalid")
+                $(".emailerror").css("color", "red");
+
                 valid = false
-                // return false
+                
             }
             if (usercheck.test(user_name)) {
                 $('.nameerror').html("")
@@ -56,18 +93,23 @@ $(document).ready(() => {
             } else {
                 console.log("invalid name")
                 $('.nameerror').html("Username invalid")
+                $(".nameerror").css("color", "red");
+
                 valid = false
-                // return false
+                
             }
 
             if (phonecheck.test(phone)) {
                 $('.phoneerror').html("")
+
                 valid = true
             } else {
                 console.log("invalid phone")
                 $('.phoneerror').html("Phone number invalid")
+                $(".phoneerror").css("color", "red");
+
                 valid = false
-                // return false
+                
             }
             if (agecheck.test(age)) {
                 $('.agerror').html("")
@@ -75,8 +117,10 @@ $(document).ready(() => {
             } else {
                 console.log("invalid age")
                 $('.agerror').html("age invalid")
+                $(".ageerror").css("color", "red");
+
                 valid = false
-                // return false
+                
             }
             if (passwordcheck.test(password)) {
                 $('.pswerror').html("")
@@ -84,8 +128,10 @@ $(document).ready(() => {
             } else {
                 console.log("invalid pswrd")
                 $('.pswerror').html("Password invalid")
+                $(".pswerror").css("color", "red");
+                
                 valid = false
-                // return false
+                
             }
 
             if (cPassword.match(password)) {
@@ -94,9 +140,10 @@ $(document).ready(() => {
             } else {
                 console.log("pswrd not matching")
                 $('.cpswerror').html("Password not matched ")
+                $(".cpswerror").css("color", "red");
+
                 valid = false
-                // return false
-                // return;
+                
             }
 
             return valid;
@@ -109,7 +156,7 @@ $(document).ready(() => {
 
     
 
-        fetch('http://localhost:3000/user/generateOTP', {  //calling backend and sending user data
+        fetch('http://localhost:3000/user/generateOTP', {  
             method: 'post', 
             body: JSON.stringify({
                 email: email,
@@ -122,10 +169,16 @@ $(document).ready(() => {
                 'content-type': 'application/JSON'
             })
         })
-            .then(res => res.json())  // response kr rhe ki data mil gaya h a
-            .then(data => {   //backend ka response 
+            .then(res => res.json())  
+            .then(data => { 
+                if(data.success===false)
+                {
+                    $('.emailerror').html("Email id Already Exists")
+                    $(".emailerror").css("color", "red");
+                    return;
+                }   
                 console.log(data)
-                secret = data.secret  // hmlog ko jo secret diya h wo store krrhe 
+                secret = data.secret  
 
                 $('.d-none').show()
                 $('.email-id').html(email)

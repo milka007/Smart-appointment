@@ -11,24 +11,39 @@ const Appointment = require('../models/Appointment')
 
 
 
-router.post('/generateOTP', (req, res) => {
-    var email = req.body.email 
-
-    var secret = Speakeasy.generateSecret({ length: 20 }); 
-    otpSecret = secret.base32;
-    otp = Speakeasy.totp({   
-        secret: otpSecret,    
-        encoding: "base32",
-        digits: 4, 
-        window: 0,
-        step: 180  
-
-    });
-    mailer.sendMailer(email, "Verification code", `Your OTP is ${otp}`)  
+router.post('/generateOTP',async (req, res) => {
+    try{
+        var email = req.body.email 
+        var data = await User.findOne({ email })
+        if (data) {
     
-    res.json({ 
-        secret: otpSecret,   
-    })
+            res.json({
+                success: false,
+                message: " email id already exists"
+            })
+            return;
+        }
+    
+        var secret = Speakeasy.generateSecret({ length: 20 }); 
+        otpSecret = secret.base32;
+        otp = Speakeasy.totp({   
+            secret: otpSecret,    
+            encoding: "base32",
+            digits: 4, 
+            window: 0,
+            step: 600  
+    
+        });
+        mailer.sendMailer(email, "Verification code", `Your OTP is ${otp}`)  
+        
+        res.json({ 
+            secret: otpSecret,   
+        })
+    }
+    catch(err){
+        console.log(err.message)
+    }
+    
 
 })
 router.post('/verifyOTP/:secret/:OTP', async (req, res) => {
@@ -43,32 +58,22 @@ router.post('/verifyOTP/:secret/:OTP', async (req, res) => {
             token: OTP,
             window: 0,
             digits: 4, 
-            step: 180
+            step: 600
 
 
         });
         const enPassword = cryptoJS.SHA256(password).toString()
+        console.log(OTP)
         if (isCorrectOTP == false) {
             res.status(200).json({
                 success: false,
                 message: "incorrect otp" 
             })
             return;
-        }
-
-        var data = await User.findOne({ email })
-        if (data) {
-
-            res.json({
-                success: false,
-                message: " email id already exists"
-            })
-        }
-        else { 
+        } 
             var data = await User.find().sort({ user_id: -1 }).limit(1) 
             console.log(data)
             if (data.length==0) {
-                console.log("ifff")
                 var user_id = "UR0001"
                 var data = await User.create({
                     user_id,
@@ -100,11 +105,7 @@ router.post('/verifyOTP/:secret/:OTP', async (req, res) => {
                     success: true
                 })
             }
-
-
-
-
-        }
+        
     }
     catch (err) {
         console.log(err.message)

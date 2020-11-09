@@ -148,7 +148,7 @@ router.post('/createAppointment', authenticateToken, async (req, res) => {
             printBackground: true,
         });
         let pdfdata = Uint8Array.from(Buffer.from(buffer))
-        sendMailer("milkashazadi827@gmail.com","Appointment confirmed","Test",[{filename:"appointment.pdf",content:pdfdata}])
+        sendMailer(userdata.email,"Appointment confirmed","Test",[{filename:"appointment.pdf",content:pdfdata}])
         res.json({
 
             success: true
