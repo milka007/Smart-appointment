@@ -17,7 +17,7 @@ router.post('/generateOTP',async (req, res) => {
         var data = await User.findOne({ email })
         if (data) {
     
-            res.json({
+            res.status(200).json({
                 success: false,
                 message: " email id already exists"
             })
@@ -36,11 +36,12 @@ router.post('/generateOTP',async (req, res) => {
         });
         mailer.sendMailer(email, "Verification code", `Your OTP is ${otp}`)  
         
-        res.json({ 
+        res.status(200).json({ 
             secret: otpSecret,   
         })
     }
     catch(err){
+        res.status(500)
         console.log(err.message)
     }
     
@@ -51,7 +52,6 @@ router.post('/verifyOTP/:secret/:OTP', async (req, res) => {
     try {
         const { email, password, user_name, phone, age } = req.body
         const { secret, OTP } = req.params
-        console.log(email, password, user_name, phone, age, secret, OTP)
         isCorrectOTP = Speakeasy.totp.verify({
             secret: secret,
             encoding: "base32",
@@ -63,7 +63,6 @@ router.post('/verifyOTP/:secret/:OTP', async (req, res) => {
 
         });
         const enPassword = cryptoJS.SHA256(password).toString()
-        console.log(OTP)
         if (isCorrectOTP == false) {
             res.status(200).json({
                 success: false,
@@ -72,7 +71,7 @@ router.post('/verifyOTP/:secret/:OTP', async (req, res) => {
             return;
         } 
             var data = await User.find().sort({ user_id: -1 }).limit(1) 
-            console.log(data)
+            
             if (data.length==0) {
                 var user_id = "UR0001"
                 var data = await User.create({
@@ -83,13 +82,11 @@ router.post('/verifyOTP/:secret/:OTP', async (req, res) => {
                     phone,
                     age
                 })
-                console.log(data)
                 res.status(200).json({
                     success: true
                 })
             } 
             else {
-                console.log("else")
                var  user_id = data[0].user_id
                 user_id = idCreator.idCreator(user_id)
                 var data = await User.create({
@@ -100,7 +97,6 @@ router.post('/verifyOTP/:secret/:OTP', async (req, res) => {
                     phone,
                     age
                 })
-                console.log(data)
                 res.status(200).json({
                     success: true
                 })
@@ -108,6 +104,7 @@ router.post('/verifyOTP/:secret/:OTP', async (req, res) => {
         
     }
     catch (err) {
+        res.status(500)
         console.log(err.message)
     }
 
@@ -124,7 +121,7 @@ router.post('/login', (req, res) => {
 
         .then(data => {
             if (!data) {
-                res.json({
+                res.status(200).json({
                     success: false,
                     message: "Email id does not exist"
                 })
@@ -132,13 +129,13 @@ router.post('/login', (req, res) => {
             }
             if (enPassword == data.password) {
                 const token = jwt.sign({user_id:data.user_id},"@#$%^9787tygh") 
-                res.json({
+                res.status(200).json({
                     success: true,
                     token
                 })
             }
             else {
-                res.json({
+                res.status(200).json({
                     success: false,
                     message: "invalid password"
                 })

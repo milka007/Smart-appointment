@@ -183,7 +183,6 @@ $(document).ready(() => {
             if (tempdate.getTime() === bookdate.getTime()) {
               var temptime = a.time
               slot = slot.filter(time => time != temptime)
-              console.log(slot)
             }
           }
           $('.slots').html("")
@@ -253,7 +252,6 @@ $(document).ready(() => {
 
       $('.cfn').click(function () {
 
-        console.log(bookdate, booktime)
         if (!bookdate || !booktime) {
           $('.popup-text').html('Please select time for appointment')
           $('.popup').show()
@@ -298,27 +296,23 @@ $(document).ready(() => {
             }
 
           })
-          .catch(err =>
+            .catch(err =>{
             console.log(err.message)
-          )
+            })
 
 
       })
       $('.ok-btn').click(function () {
         $('.popup').hide()
       })
-
-
-      console.log(res[0].slot)
     })
     .catch(err => {
-      console.log(err)
+      console.log(err.message)
     })
   fetch(`http://localhost:3000/appointment/allAppointments/${doctor_id}`, {
     method: "get"
   }).then(res => res.json())
     .then(res => {
-      console.log(res)
       alreadybooked = res
       var slot = doctorslot
       bookdate=new Date(bookdate)
@@ -328,7 +322,6 @@ $(document).ready(() => {
         if (tempdate.getTime() === bookdate.getTime()) {
           var temptime = a.time
           slot = slot.filter(time => time != temptime)
-          console.log(slot)
         }
       }
       $('.slots').html("")

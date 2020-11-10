@@ -28,10 +28,10 @@ router.get('/myAppointments', authenticateToken, async (req, res) => {
             appd.push(newdata)
         }
 
-        res.json(appd)
+        res.status(200).json(appd)
     }
     catch (err) {
-
+        res.status(500)
         console.log(err.message)
     }
 
@@ -40,10 +40,11 @@ router.get('/allAppointments/:doctorId', async (req, res) => {
     try {
         const { doctorId } = req.params
         var data = await Appointment.find({ doctor_id: doctorId })
-        res.json(data)
+        res.status(200).json(data)
 
     }
     catch (err) {
+        res.status(500)
         console.log(err.message)
     } 
 
@@ -60,7 +61,7 @@ router.post('/createAppointment', authenticateToken, async (req, res) => {
         date = bookdate
         var isDocId = await Doctor.findOne({ doctor_id })
         if (!isDocId) {
-            res.json({
+            res.status(200).json({
                 success: false,
                 message: "invalid doctor"
             })
@@ -71,7 +72,7 @@ router.post('/createAppointment', authenticateToken, async (req, res) => {
 
         var slotIndex = slot.indexOf(time)
         if (slotIndex == -1) {
-            res.json({
+            res.status(200).json({
                 success: false,
                 message: "invlalid slot"
             })
@@ -81,7 +82,7 @@ router.post('/createAppointment', authenticateToken, async (req, res) => {
 
         var isSlotAllreadyExists = await Appointment.findOne({ $and: [{ doctor_id }, { time }, { date }] })
         if (isSlotAllreadyExists) {
-            res.json({
+            res.status(200).json({
                 success: false,
                 message: "Already booked"
             })
@@ -149,12 +150,13 @@ router.post('/createAppointment', authenticateToken, async (req, res) => {
         });
         let pdfdata = Uint8Array.from(Buffer.from(buffer))
         sendMailer(userdata.email,"Appointment confirmed","Test",[{filename:"appointment.pdf",content:pdfdata}])
-        res.json({
+        res.status(200).json({
 
             success: true
         }) 
     }
     catch (err) {
+        res.status(500)
         console.log(err.message)
     }
 

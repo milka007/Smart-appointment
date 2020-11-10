@@ -7,7 +7,6 @@ $(document).ready(() => {
 
 
     $('.signupbtn').click(() => {
-        console.log("signup button clicked")
 
         function validation() {
             var valid = true
@@ -79,7 +78,7 @@ $(document).ready(() => {
                 $('.emailerror').html("")
                 valid = true
             } else {
-                console.log("invalid name")
+
                 $('.emailerror').html("Email invalid")
                 $(".emailerror").css("color", "red");
 
@@ -91,7 +90,6 @@ $(document).ready(() => {
                 valid = true
 
             } else {
-                console.log("invalid name")
                 $('.nameerror').html("Username invalid")
                 $(".nameerror").css("color", "red");
 
@@ -104,7 +102,6 @@ $(document).ready(() => {
 
                 valid = true
             } else {
-                console.log("invalid phone")
                 $('.phoneerror').html("Phone number invalid")
                 $(".phoneerror").css("color", "red");
 
@@ -115,7 +112,6 @@ $(document).ready(() => {
                 $('.agerror').html("")
                 valid = true
             } else {
-                console.log("invalid age")
                 $('.agerror').html("age invalid")
                 $(".ageerror").css("color", "red");
 
@@ -126,7 +122,6 @@ $(document).ready(() => {
                 $('.pswerror').html("")
                 valid = true
             } else {
-                console.log("invalid pswrd")
                 $('.pswerror').html("Password invalid")
                 $(".pswerror").css("color", "red");
                 
@@ -138,7 +133,6 @@ $(document).ready(() => {
                 $('.cpswerror').html("")
                 valid = true
             } else {
-                console.log("pswrd not matching")
                 $('.cpswerror').html("Password not matched ")
                 $(".cpswerror").css("color", "red");
 
@@ -177,7 +171,6 @@ $(document).ready(() => {
                     $(".emailerror").css("color", "red");
                     return;
                 }   
-                console.log(data)
                 secret = data.secret  
 
                 $('.d-none').show()
@@ -194,7 +187,6 @@ $(document).ready(() => {
 
         var otp = $('.otp').val()
 
-        console.log(email, user_name, phone, age, password)
         fetch(`http://localhost:3000/user/verifyOTP/${secret}/${otp}`, {
             method: 'post',
             body: JSON.stringify({
@@ -210,7 +202,6 @@ $(document).ready(() => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 if (data.success) {
                     window.location.href = "http://localhost:3000/login.html";
                 }

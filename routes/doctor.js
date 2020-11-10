@@ -7,9 +7,10 @@ router.get('/getDetails/:doctor_id',async (req,res)=>{
     try{  
         const {doctor_id} = req.params
         var data = await Doctor.find({doctor_id:doctor_id})
-        res.json(data)
+        res.status(200).json(data)
     }
     catch(err){
+        res.status(500)
         console.log(err.message)
     }
 })
@@ -32,7 +33,7 @@ router.post('/', async (req, res) => {
                 fee
             })
 
-            res.json({
+            res.status(200).json({
                 success: true
             })
         }
@@ -50,7 +51,7 @@ router.post('/', async (req, res) => {
                 fee
             })
 
-            res.json({
+            res.status(200).json({
                 success: true
             })
         }
@@ -68,7 +69,7 @@ router.get('/getAllDoctors', async (req, res) => {
 
     try {
         var data = await Doctor.find()
-        res.json(data)
+        res.status(200).json(data)
     }
     catch (err) {
         console.log(err.message)

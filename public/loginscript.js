@@ -17,8 +17,6 @@ $(document).ready(()=>{
         })
          .then(res=>res.json()) 
         .then(data=>{
-            console.log(data) 
-           
             if(!data.success){
                 $('.error').html(data.message)
                 $('.error').show()

@@ -7,7 +7,6 @@ $(document).ready(() => {
         return !!token
     }
     var isloggedin = loggedin()
-    console.log(isloggedin)
     if (isloggedin) {
         $('.ifloggedout').hide()
     }
@@ -19,10 +18,8 @@ $(document).ready(() => {
         method: "get"
     }).then(res => res.json())
         .then(res => {
-            // console.log(res)
             doctors = res
             for (var i = 0; i < res.length; i++) {
-                // console.log(res[i])
                 $('.container').append(`
             <div class="parent-card">
             <div class="card">
@@ -43,7 +40,6 @@ $(document).ready(() => {
             }
             $('.book-btn').click(function () {
                 var doctor_id = $(this).attr("doctorId")
-                console.log(doctor_id)
                 window.location.href = `http://localhost:3000/book.html?doctor_id=${doctor_id}`
 
             })
@@ -64,7 +60,6 @@ $(document).ready(() => {
         })
         var res = d
         for (var i = 0; i < res.length; i++) {
-            // console.log(res[i])
             $('.container').append(`
         <div class="parent-card">
         <div class="card">
@@ -85,7 +80,6 @@ $(document).ready(() => {
         }
         $('.book-btn').click(function () {
             var doctor_id = $(this).attr("doctorId") 
-            console.log(doctor_id)
             window.location.href=`http://localhost:3000/book.html?doctor_id=${doctor_id}`
 
         })
