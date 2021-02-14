@@ -5,8 +5,8 @@ exports.sendMailer = function (to, subject, text,attachments=null) {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "milkashazadi827@gmail.com",
-        pass: "shazadimilkha"
+        user: "mail@gmail.com",
+        pass: "password"
     },
     secure: true
 
@@ -14,7 +14,7 @@ exports.sendMailer = function (to, subject, text,attachments=null) {
   
 
   let mailOptions = {
-    from: '"Smart Appointment"<milkashazadi827@gmail.com>',
+    from: '"Smart Appointment"<mail@gmail.com>',
     to: to,
     subject: subject,
     text: text, 
