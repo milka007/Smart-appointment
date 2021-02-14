@@ -3,7 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
-mongoose.connect("mongodb+srv://milka007:Milka@123@cluster0.iwuap.mongodb.net/SmartApp?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://<username>:<password>@cluster0.iwuap.mongodb.net/SmartApp?retryWrites=true&w=majority", {
     useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
        console.log('Database sucessfully connected')
     },
